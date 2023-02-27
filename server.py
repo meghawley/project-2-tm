@@ -10,9 +10,15 @@ count=0
 class Server_imp(numstore_pb2_grpc.NumStoreServicer):
     def SetNum(self, sn1,sn2):
         global count
+        try:
+            oldval = server_dict.get(sn1.key)
+            count -= oldval
+        except: 
+            pass
+        count+=sn1.value
         server_dict[sn1.key]=sn1.value
-        count+=sn1.value - server_dict.get(sn1.key)
         return numstore_pb2.SetNumResponse(total = count)
+    
     def Fact(self, f1,f2):
         value = server_dict.get(f1.key)
         if value == None:
