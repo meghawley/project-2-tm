@@ -2,6 +2,7 @@ import grpc
 import numstore_pb2
 import numstore_pb2_grpc
 import math
+import random
 from concurrent import futures
 import threading
 
@@ -36,17 +37,22 @@ class Server_imp(numstore_pb2_grpc.NumStoreServicer):
             lock.release()
             return numstore_pb2.FactResponse(error="Not Found")
         else:
-
             if value in cache.keys():
-                pass
+                ret = cache[value]
+                lock.release()
+                print(f"return value: {ret} hit=True")
+                return numstore_pb2.FactResponse(value=ret, hit=True) #tried many things, idk what to put for this line :/
             else: 
-                cache[value] = numstore_pb2.FactResponse(value = math.factorial(value))
-                #TODO: TEST IF WORK, IMPLEMENT EVICTION POLICY, CACHE LEN = 10
-               
-        ret = cache[value]
-        lock.release()
-        print(f"return value: {ret}")
-        return ret
+                #LRU
+                if len(cache)>=10:
+                    remove = min(cache, key=cache.get)
+                    del cache[remove]
+                res = math.factorial(value)
+                cache[value] = numstore_pb2.FactResponse(value=res)
+                lock.release()
+                print(f"return value: {res} hit=False")
+                return numstore_pb2.FactResponse(value=res, hit=False)
+        
         
         
 def server():
