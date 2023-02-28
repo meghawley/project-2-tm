@@ -16,7 +16,26 @@ resp = stub.SetNum(numstore_pb2.SetNumRequest(key="A", value=5))
 print(resp.total) # should be 15
 resp = stub.SetNum(numstore_pb2.SetNumRequest(key="B", value=0))
 print(resp.total) # should be 5
+resp = stub.SetNum(numstore_pb2.SetNumRequest(key="C", value=1))
+print(resp.total) # should be 5
+resp = stub.SetNum(numstore_pb2.SetNumRequest(key="D", value=2))
+print(resp.total) # should be 5
+
 
 # TEST Fact
 resp = stub.Fact(numstore_pb2.FactRequest(key="A"))
 print(resp.value) # should be 120
+resp = stub.Fact(numstore_pb2.FactRequest(key="A"))
+print(resp.value) # should be 120
+resp = stub.Fact(numstore_pb2.FactRequest(key="B"))
+print(resp.value) 
+resp = stub.Fact(numstore_pb2.FactRequest(key="C"))
+print(resp.value) 
+resp = stub.Fact(numstore_pb2.FactRequest(key="D"))
+print(resp.value) 
+resp = stub.Fact(numstore_pb2.FactRequest(key="C"))
+print(resp.value) 
+resp = stub.Fact(numstore_pb2.FactRequest(key="A"))
+print(resp.value) 
+resp = stub.Fact(numstore_pb2.FactRequest(key="B"))
+print(resp.value) 
