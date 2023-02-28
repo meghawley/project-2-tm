@@ -30,7 +30,7 @@ class Server_imp(numstore_pb2_grpc.NumStoreServicer):
         return numstore_pb2.SetNumResponse(total = total)
     
     def Fact(self, f1,f2):
-        print(f"fact: {f1.key}")
+        print(f"fact: {f1.key}") #something is happening here, 9 is repeated again and again in server print outputs
         lock.acquire() #protect server_dict and cache
         value = server_dict.get(f1.key)
         global cache
