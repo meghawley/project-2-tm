@@ -1,3 +1,6 @@
+#tcoan2@wisc.edu
+#mmnovak@wisc.edu
+
 import grpc
 import numstore_pb2
 import numstore_pb2_grpc
